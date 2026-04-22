@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CYBERFLUX: QUANTUM WEB MATRIX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;font-family:Segoe UI,sans-serif;
+background:radial-gradient(circle,#0b0f2a,#000);
+color:#00f7ff;text-align:center;
+}
+
+header{
+padding:15px;border-bottom:1px solid #00f7ff33;
+}
+
+section{
+margin:15px;padding:15px;
+border:1px solid #00f7ff33;
+border-radius:10px;
+background:rgba(0,255,255,0.03);
+}
+
+h2{color:#00f7ff}
+
+.node{
+width:120px;height:120px;
+display:flex;align-items:center;justify-content:center;
+border:2px dashed #00f7ff;
+border-radius:10px;margin:auto;
+}
+
+#core{background:#00f7ff22;cursor:grab}
+#vault.active{background:#00ff8855}
+
+button,input{
+margin:5px;padding:6px;
+background:transparent;
+border:1px solid #00f7ff;
+color:#00f7ff;border-radius:5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>CYBERFLUX</h1>
+<p>QUANTUM WEB MATRIX ACTIVE</p>
+</header>
+
+<section>
+<h2>DRAG NODE</h2>
+<div id="core" class="node" draggable="true">CORE</div>
+<div id="vault" class="node">VAULT</div>
+<p id="log"></p>
+</section>
+
+<section>
+<h2>GEO SCAN</h2>
+<button onclick="geo()">LOCATE</button>
+<p id="geo">READY</p>
+</section>
+
+<section>
+<h2>MEMORY GRID</h2>
+<input id="txt" placeholder="key">
+<button onclick="save()">SAVE</button>
+<button onclick="load()">LOAD</button>
+<button onclick="clr()">CLEAR</button>
+<p id="mem"></p>
+</section>
+
+<script>
+core.ondragstart=e=>e.dataTransfer.setData("t","core");
+
+vault.ondragover=e=>{e.preventDefault();vault.classList.add("active")};
+
+vault.ondrop=e=>{
+e.preventDefault();
+vault.classList.remove("active");
+vault.appendChild(core);
+log.innerText="CORE LINKED TO MATRIX";
+};
+
+function geo(){
+if(!navigator.geolocation){
+geo.innerText="NO SUPPORT";return;
+}
+geo.innerText="SCANNING...";
+navigator.geolocation.getCurrentPosition(p=>{
+geo.innerHTML="LAT:"+p.coords.latitude.toFixed(3)+"<br>LNG:"+p.coords.longitude.toFixed(3);
+});
+}
+
+function save(){
+localStorage.setItem("cyber",txt.value);
+mem.innerText="STORED";
+}
+
+function load(){
+mem.innerText=localStorage.getItem("cyber")||"EMPTY";
+}
+
+function clr(){
+localStorage.removeItem("cyber");
+mem.innerText="CLEARED";
+}
+</script>
+
+</body>
+</html>
